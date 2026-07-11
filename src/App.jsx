@@ -2,7 +2,8 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 import AlgorithmCard from "./components/AlgorithmCard";
 import { algorithms } from "./data/algorithms";
-
+import BubbleSortVisualizer from "./components/visualizers/BubbleSortVisualizer";
+import SelectionSortVisualizer from "./components/visualizers/SelectionSortVisualizer";
 function App() {
   // this is our memory box — starts empty (nothing selected)
   const [selectedId, setSelectedId] = useState(null);
@@ -31,6 +32,10 @@ function App() {
             <span className="font-semibold text-blue-600">{selectedId}</span>
           </p>
         )}
+
+        {/* NEW LINE — add this right here */}
+        {selectedId === "bubble-sort" && <BubbleSortVisualizer />}
+        {selectedId === "selection-sort" && <SelectionSortVisualizer />}
       </main>
     </div>
   );
