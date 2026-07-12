@@ -4,7 +4,7 @@ import ArrayInput from "../ArrayInput";
 
 const SPEED_OPTIONS = [0.5, 1, 1.5, 2]; // NEW: the four speeds we support
 
-function BubbleSortVisualizer() {
+function SelectionSortVisualizer() {
   const [steps, setSteps] = useState(() =>
     selectionSortTrace([8, 3, 6, 1, 9, 4]),
   );
@@ -120,4 +120,4 @@ function BubbleSortVisualizer() {
   );
 }
 
-export default BubbleSortVisualizer;
+export default SelectionSortVisualizer;

@@ -1,20 +1,6 @@
-function AlgorithmCard({
-  name,
-  category,
-  description,
-  difficulty,
-  isSelected,
-  onSelect,
-}) {
+function AlgorithmCard({ name, category, description, difficulty }) {
   return (
-    <div
-      onClick={onSelect}
-      className={`rounded-xl shadow-md p-5 border transition-all cursor-pointer hover:shadow-lg hover:-translate-y-1 ${
-        isSelected
-          ? "border-blue-500 bg-blue-50 ring-2 ring-blue-300"
-          : "bg-white border-slate-100"
-      }`}
-    >
+    <div className="bg-white rounded-xl shadow-md p-5 border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer h-full">
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
           {category}

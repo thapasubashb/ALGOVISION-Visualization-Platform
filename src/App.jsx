@@ -1,42 +1,47 @@
-import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import AlgorithmCard from "./components/AlgorithmCard";
-import { algorithms } from "./data/algorithms";
-import BubbleSortVisualizer from "./components/visualizers/BubbleSortVisualizer";
-import SelectionSortVisualizer from "./components/visualizers/SelectionSortVisualizer";
-function App() {
-  // this is our memory box — starts empty (nothing selected)
-  const [selectedId, setSelectedId] = useState(null);
+import Home from "./pages/Home";
+import DSAPage from "./pages/DSAPage";
+import AlgorithmPage from "./pages/AlgorithmPage";
+import ComingSoonPage from "./pages/ComingSoonPage";
+import Footer from "./components/Footer";
 
+function App() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
-      <main className="max-w-5xl mx-auto px-6 py-10">
-        <h2 className="text-xl font-semibold text-slate-700 mb-6">
-          Choose an algorithm to visualize
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-          {algorithms.map((algo) => (
-            <AlgorithmCard
-              key={algo.id}
-              {...algo}
-              isSelected={selectedId === algo.id}
-              onSelect={() => setSelectedId(algo.id)}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dsa" element={<DSAPage />} />
+        <Route path="/dsa/:algorithmId" element={<AlgorithmPage />} />
+        <Route
+          path="/os"
+          element={
+            <ComingSoonPage
+              title="Operating Systems"
+              description="CPU scheduling, memory management, and deadlock visualizations are on the way."
             />
-          ))}
-        </div>
-
-        {selectedId && (
-          <p className="mt-8 text-slate-600">
-            You selected:{" "}
-            <span className="font-semibold text-blue-600">{selectedId}</span>
-          </p>
-        )}
-
-        {/* NEW LINE — add this right here */}
-        {selectedId === "bubble-sort" && <BubbleSortVisualizer />}
-        {selectedId === "selection-sort" && <SelectionSortVisualizer />}
-      </main>
+          }
+        />
+        <Route
+          path="/cn"
+          element={
+            <ComingSoonPage
+              title="Computer Networks"
+              description="Routing algorithms, TCP handshakes, and subnetting visualizations are on the way."
+            />
+          }
+        />
+        <Route
+          path="/dbms"
+          element={
+            <ComingSoonPage
+              title="Database Management"
+              description="Indexing, B-trees, and query execution visualizations are on the way."
+            />
+          }
+        />
+      </Routes>
     </div>
   );
 }
