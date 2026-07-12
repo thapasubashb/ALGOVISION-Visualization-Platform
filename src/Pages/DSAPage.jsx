@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import AlgorithmCard from "../components/AlgorithmCard";
-import { algorithms } from "../data/algorithms";
+import { Link } from 'react-router-dom'
+import AlgorithmCard from '../components/AlgorithmCard'
+import { algorithms } from '../data/algorithms'
 
 function DSAPage() {
   return (
-    <main className="max-w-5xl mx-auto px-6 py-10">
+    <main className="max-w-5xl mx-auto px-6 pt-32 pb-10">
       <h2 className="text-xl font-semibold text-slate-700 mb-6">
         Choose an algorithm to visualize
       </h2>
@@ -16,7 +16,7 @@ function DSAPage() {
         ))}
       </div>
     </main>
-  );
+  )
 }
 
-export default DSAPage;
+export default DSAPage

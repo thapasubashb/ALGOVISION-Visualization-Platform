@@ -36,29 +36,28 @@ function SelectionSortVisualizer() {
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 mt-8">
-      <h3 className="text-lg font-bold text-slate-800 mb-4">Bubble Sort</h3>
+      <h3 className="text-lg font-bold text-slate-800 mb-4">Selection Sort</h3>
 
       <ArrayInput onSubmit={handleNewArray} />
+{(() => {
+  const maxValue = Math.max(...step.array)
+  return step.array.map((value, index) => {
+    let barColor = 'bg-slate-300'
+    if (step.sortedIndices.includes(index)) barColor = 'bg-green-400'
+    else if (step.swapped.includes(index)) barColor = 'bg-red-400'
+    else if (step.comparing.includes(index)) barColor = 'bg-amber-400'
 
-      <div className="flex items-end gap-2 h-64 mb-6">
-        {step.array.map((value, index) => {
-          let barColor = "bg-slate-300";
-          if (step.sortedIndices.includes(index)) barColor = "bg-green-400";
-          else if (step.swapped.includes(index)) barColor = "bg-red-400";
-          else if (index === step.minIndex) barColor = "bg-purple-400";
-          else if (step.comparing.includes(index)) barColor = "bg-amber-400";
-          return (
-            <div key={index} className="flex flex-col items-center flex-1">
-              <div
-                className={`w-full rounded-t-md transition-all duration-300 ${barColor}`}
-                style={{ height: `${value * 20}px` }}
-              />
-              <span className="text-xs text-slate-500 mt-1">{value}</span>
-            </div>
-          );
-        })}
+    return (
+      <div key={index} className="flex flex-col items-center justify-end flex-1 h-full">
+        <div
+          className={`w-full rounded-t-md transition-all duration-300 ${barColor}`}
+          style={{ height: `${Math.max((value / maxValue) * 100, 4)}%` }}
+        />
+        <span className="text-xs text-slate-500 mt-1">{value}</span>
       </div>
-
+    )
+  })
+})()}
       <p className="text-sm text-slate-600 mb-4">{step.description}</p>
 
       <div className="flex items-center gap-3 flex-wrap">

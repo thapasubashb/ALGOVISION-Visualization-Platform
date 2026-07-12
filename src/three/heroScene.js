@@ -2,7 +2,7 @@ export function buildHeroScene(THREE, group) {
   const NODE_COUNT = 34
   const nodePositions = []
   const nodeGeometry = new THREE.SphereGeometry(0.09, 12, 12)
-  const nodeMaterial = new THREE.MeshBasicMaterial({ color: 0x3b82f6 })
+  const nodeMaterial = new THREE.MeshBasicMaterial({ color: 0x2563eb })
 
   for (let i = 0; i < NODE_COUNT; i++) {
     const y = 1 - (i / (NODE_COUNT - 1)) * 2
@@ -17,7 +17,7 @@ export function buildHeroScene(THREE, group) {
     group.add(sphere)
   }
 
-  const lineMaterial = new THREE.LineBasicMaterial({ color: 0x93c5fd, transparent: true, opacity: 0.6 })
+  const lineMaterial = new THREE.LineBasicMaterial({ color: 0x60a5fa, transparent: true, opacity: 0.55 })
   const drawnPairs = new Set()
   nodePositions.forEach((pos, i) => {
     const closest = nodePositions
