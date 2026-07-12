@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import Scene3DBackground from "./Scene3DBackground";
+import { buildFeatureScene } from "../three/featureScene";
 
 const features = [
   {
@@ -23,14 +25,16 @@ const features = [
 
 function FeatureHighlights() {
   return (
-    <section className="bg-white py-24 px-6">
-      <div className="max-w-5xl mx-auto">
+    <section className="min-h-screen bg-white flex flex-col justify-center py-24 px-6 relative overflow-hidden">
+      <Scene3DBackground buildScene={buildFeatureScene} cameraZ={12} />
+
+      <div className="max-w-5xl mx-auto relative z-10">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.6 }}
-          className="text-3xl sm:text-4xl font-bold text-slate-800 text-center mb-16"
+          className="text-3xl sm:text-4xl font-bold text-slate-900 text-center mb-16"
           style={{ fontFamily: "'Sora', sans-serif" }}
         >
           Built to actually make it click
@@ -44,23 +48,18 @@ function FeatureHighlights() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6, delay: i * 0.15 }}
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-6"
             >
-              <span
-                className="text-blue-500 text-sm font-semibold"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
+              <span className="text-blue-600 text-sm font-semibold">
                 {f.number}
               </span>
               <h3
-                className="text-xl font-bold text-slate-800 mt-2 mb-3"
+                className="text-xl font-bold text-slate-900 mt-2 mb-3"
                 style={{ fontFamily: "'Sora', sans-serif" }}
               >
                 {f.title}
               </h3>
-              <p
-                className="text-slate-500 text-sm leading-relaxed"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
+              <p className="text-slate-600 text-sm leading-relaxed">
                 {f.description}
               </p>
             </motion.div>
