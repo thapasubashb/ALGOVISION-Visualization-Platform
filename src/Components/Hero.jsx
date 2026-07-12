@@ -5,7 +5,7 @@ import { buildHeroScene } from "../three/heroScene";
 
 function Hero() {
   return (
-    <section className="min-h-screen bg-gradient-to-b from-sky-50 to-white text-slate-900 flex flex-col items-center justify-center text-center px-6 relative overflow-hidden">
+    <section className="min-h-screen bg-linear-to-b from-sky-50 to-white text-slate-900 flex flex-col items-center justify-center text-center px-6 relative overflow-hidden">
       <Scene3DBackground buildScene={buildHeroScene} />
 
       <div className="relative z-10 flex flex-col items-center">

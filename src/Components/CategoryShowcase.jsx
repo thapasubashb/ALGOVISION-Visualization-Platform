@@ -6,7 +6,7 @@ import { buildCategoryScene } from "../three/categoryScene";
 
 function CategoryShowcase() {
   return (
-    <section className="min-h-screen bg-gradient-to-b from-sky-50 to-white flex flex-col justify-center py-24 px-6 relative overflow-hidden">
+    <section className="min-h-screen bg-linear-to-b from-sky-50 to-white flex flex-col justify-center py-24 px-6 relative overflow-hidden">
       <Scene3DBackground buildScene={buildCategoryScene} cameraZ={13} />
 
       <div className="relative z-10">
