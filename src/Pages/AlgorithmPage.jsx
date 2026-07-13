@@ -6,8 +6,8 @@ import MergeSortVisualizer from '../components/visualizers/MergeSortVisualizer'
 import QuickSortVisualizer from '../components/visualizers/QuickSortVisualizer'
 import LinearSearchVisualizer from '../components/visualizers/LinearSearchVisualizer'
 import BinarySearchVisualizer from '../components/visualizers/BinarySearchVisualizer'
-
-
+import LinkedListVisualizer from '../components/visualizers/LinkedListVisualizer'
+import StackQueueVisualizer from '../components/visualizers/StackQueueVisualizer'
 
 const visualizers = {
   'bubble-sort': BubbleSortVisualizer,
@@ -17,6 +17,8 @@ const visualizers = {
   'quick-sort': QuickSortVisualizer,
   'linear-search': LinearSearchVisualizer,
   'binary-search': BinarySearchVisualizer,
+  'linked-list': LinkedListVisualizer,
+  'stack-queue': StackQueueVisualizer,
 }
 
 

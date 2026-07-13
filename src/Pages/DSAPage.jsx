@@ -4,7 +4,7 @@ import { algorithms } from '../data/algorithms'
 
 function DSAPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-sky-100 to-white px-6 pt-32 pb-16">
+    <main className="min-h-screen bg-gradient-to-b from-sky-200 to-white px-6 pt-32 pb-16">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-xl font-semibold text-slate-700 mb-6">
           Choose an algorithm to visualize
