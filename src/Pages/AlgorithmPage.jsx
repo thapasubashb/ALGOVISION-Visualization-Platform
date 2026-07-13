@@ -2,12 +2,21 @@ import { useParams, Link } from 'react-router-dom'
 import BubbleSortVisualizer from '../components/visualizers/BubbleSortVisualizer'
 import SelectionSortVisualizer from '../components/visualizers/SelectionSortVisualizer'
 import InsertionSortVisualizer from '../components/visualizers/InsertionSortVisualizer'
+import MergeSortVisualizer from '../components/visualizers/MergeSortVisualizer'
+import QuickSortVisualizer from '../components/visualizers/QuickSortVisualizer'
 
 const visualizers = {
   'bubble-sort': BubbleSortVisualizer,
   'selection-sort': SelectionSortVisualizer,
   'insertion-sort': InsertionSortVisualizer,
+  'merge-sort': MergeSortVisualizer,
+  'quick-sort': QuickSortVisualizer,
 }
+
+
+
+
+
 
 function AlgorithmPage() {
   const { algorithmId } = useParams()
