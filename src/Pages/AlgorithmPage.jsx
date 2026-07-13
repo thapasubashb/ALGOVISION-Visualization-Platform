@@ -4,6 +4,10 @@ import SelectionSortVisualizer from '../components/visualizers/SelectionSortVisu
 import InsertionSortVisualizer from '../components/visualizers/InsertionSortVisualizer'
 import MergeSortVisualizer from '../components/visualizers/MergeSortVisualizer'
 import QuickSortVisualizer from '../components/visualizers/QuickSortVisualizer'
+import LinearSearchVisualizer from '../components/visualizers/LinearSearchVisualizer'
+import BinarySearchVisualizer from '../components/visualizers/BinarySearchVisualizer'
+
+
 
 const visualizers = {
   'bubble-sort': BubbleSortVisualizer,
@@ -11,10 +15,9 @@ const visualizers = {
   'insertion-sort': InsertionSortVisualizer,
   'merge-sort': MergeSortVisualizer,
   'quick-sort': QuickSortVisualizer,
+  'linear-search': LinearSearchVisualizer,
+  'binary-search': BinarySearchVisualizer,
 }
-
-
-
 
 
 

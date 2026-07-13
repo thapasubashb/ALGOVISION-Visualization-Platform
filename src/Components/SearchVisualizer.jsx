@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 const SPEED_OPTIONS = [0.5, 1, 1.5, 2]
 
-function SearchVisualizer({ title, initialArray, initialTarget, traceFn, getBarColor, note }) {
+function SearchVisualizer({ title, initialArray, initialTarget, traceFn, renderVisual, note }) {
   const [steps, setSteps] = useState(() => traceFn(initialArray, initialTarget))
   const [currentStep, setCurrentStep] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -16,7 +16,7 @@ function SearchVisualizer({ title, initialArray, initialTarget, traceFn, getBarC
     if (parts.length === 0) { setError('Please enter at least one number'); return }
     const numbers = parts.map(Number)
     if (numbers.some((n) => isNaN(n))) { setError('Please only enter numbers, separated by commas'); return }
-    if (numbers.length > 15) { setError('Please enter 15 numbers or fewer'); return }
+    if (numbers.length > 12) { setError('Please enter 12 numbers or fewer, so the boxes stay readable'); return }
 
     const target = Number(targetText)
     if (targetText.trim() === '' || isNaN(target)) { setError('Please enter a number to search for'); return }
@@ -36,14 +36,13 @@ function SearchVisualizer({ title, initialArray, initialTarget, traceFn, getBarC
   }, [isPlaying, currentStep, steps, speed])
 
   const step = steps[currentStep]
-  const maxValue = Math.max(...step.array)
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 mt-8">
       <h3 className="text-lg font-bold text-slate-800 mb-2">{title}</h3>
       {note && <p className="text-xs text-slate-400 mb-4">{note}</p>}
 
-      <div className="flex flex-wrap gap-2 mb-2">
+      <div className="flex flex-wrap gap-2 mb-4 justify-center">
         <input
           type="text"
           value={arrayText}
@@ -62,22 +61,11 @@ function SearchVisualizer({ title, initialArray, initialTarget, traceFn, getBarC
           Visualize
         </button>
       </div>
-      {error && <p className="text-red-500 text-xs mb-4">{error}</p>}
-      {!error && <div className="mb-4" />}
+      {error && <p className="text-red-500 text-xs mb-4 text-center">{error}</p>}
 
-      <div className="flex gap-2 h-64 mb-6">
-        {step.array.map((value, index) => (
-          <div key={index} className="flex flex-col items-center justify-end flex-1 h-full">
-            <div
-              className={`w-full rounded-t-md transition-all duration-300 ${getBarColor(step, index)}`}
-              style={{ height: `${Math.max((value / maxValue) * 100, 4)}%` }}
-            />
-            <span className="text-xs text-slate-500 mt-1">{value}</span>
-          </div>
-        ))}
-      </div>
+      <div className="mb-2">{renderVisual(step)}</div>
 
-      <p className="text-sm text-slate-600 mb-4">{step.description}</p>
+      <p className="text-sm text-slate-600 mb-4 text-center">{step.description}</p>
 
       <div className="flex items-center gap-3 flex-wrap">
         <button onClick={() => setCurrentStep((s) => Math.max(0, s - 1))} disabled={currentStep === 0} className="px-3 py-2 bg-slate-200 rounded-lg disabled:opacity-40">Back</button>
