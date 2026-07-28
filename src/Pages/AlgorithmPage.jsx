@@ -9,6 +9,10 @@ import BinarySearchVisualizer from '../components/visualizers/BinarySearchVisual
 import LinkedListVisualizer from '../components/visualizers/LinkedListVisualizer'
 import StackQueueVisualizer from '../components/visualizers/StackQueueVisualizer'
 import BSTVisualizer from '../components/visualizers/BSTVisualizer'
+import GraphVisualizer from '../components/visualizers/GraphVisualizer'
+
+
+
 const visualizers = {
   'bubble-sort': BubbleSortVisualizer,
   'selection-sort': SelectionSortVisualizer,
@@ -20,6 +24,7 @@ const visualizers = {
   'linked-list': LinkedListVisualizer,
   'stack-queue': StackQueueVisualizer,
   'bst': BSTVisualizer,
+  'graph-traversal': GraphVisualizer,
 }
 
 
