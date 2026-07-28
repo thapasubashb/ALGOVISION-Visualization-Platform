@@ -35,7 +35,21 @@ function GraphVisualizer() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [speed, setSpeed] = useState(1)
 
- 
+  function handleRun() {
+    const trace = mode === 'bfs' ? bfsTrace(startNode) : dfsTrace(startNode)
+    setSteps(trace)
+    setCurrentStep(0)
+    setIsPlaying(false)
+  }
+
+  useEffect(() => {
+    if (!isPlaying) return
+    if (currentStep >= steps.length - 1) { setIsPlaying(false); return }
+    const delay = 700 / speed
+    const timer = setTimeout(() => setCurrentStep((s) => s + 1), delay)
+    return () => clearTimeout(timer)
+  }, [isPlaying, currentStep, steps, speed])
+
   const step = steps[currentStep]
 
   return (
