@@ -29,8 +29,31 @@ export function bfsTrace(start) {
     }
   }
 
-  
-  
+  steps.push({ visited: [...visited], pending: [], current: null, description: `BFS complete: ${[...visited].join(' → ')}` })
+  return steps
+}
+
+export function dfsTrace(start) {
+  const steps = []
+  const visited = new Set()
+  const stack = [start]
+
+  steps.push({ visited: [...visited], pending: [...stack], current: null, description: `Starting DFS from ${start} — pushing it onto the stack` })
+
+  while (stack.length > 0) {
+    const node = stack.pop()
+    if (visited.has(node)) continue
+    visited.add(node)
+    steps.push({ visited: [...visited], pending: [...stack], current: node, description: `Visiting ${node}` })
+
+    for (const neighbor of adjacency[node]) {
+      if (!visited.has(neighbor)) {
+        stack.push(neighbor)
+        steps.push({ visited: [...visited], pending: [...stack], current: node, description: `${neighbor} is unvisited — pushing onto the stack` })
+      }
+    }
+  }
+
   steps.push({ visited: [...visited], pending: [], current: null, description: `DFS complete: ${[...visited].join(' → ')}` })
   return steps
 }
