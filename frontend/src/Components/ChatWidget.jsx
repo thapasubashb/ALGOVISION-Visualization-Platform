@@ -3,6 +3,51 @@ import { useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { algorithms } from '../data/algorithms'
 
+function ChatWidget() {
+  const { algorithmId } = useParams()
+  const currentAlgorithm = algorithms.find((a) => a.id === algorithmId)
+
+  const [isOpen, setIsOpen] = useState(false)
+  const [messages, setMessages] = useState([
+    { role: 'assistant', content: "Hi! I'm your AlgoVision AI tutor. Ask me anything about the algorithm you're viewing, or CS concepts in general." },
+  ])
+  const [input, setInput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const scrollRef = useRef(null)
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+    }
+  }, [messages, isOpen])
+
+  async function handleSend() {
+    const trimmed = input.trim()
+    if (!trimmed || isLoading) return
+
+    setMessages((prev) => [...prev, { role: 'user', content: trimmed }])
+    setInput('')
+    setIsLoading(true)
+
+    try {
+      const response = await fetch('http://localhost:5000/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: trimmed,
+          context: currentAlgorithm ? { algorithmName: currentAlgorithm.name } : null,
+        }),
+      })
+
+      const data = await response.json()
+      const replyText = data.reply || "Sorry, something went wrong. Please try again."
+      setMessages((prev) => [...prev, { role: 'assistant', content: replyText }])
+    } catch (err) {
+      setMessages((prev) => [...prev, { role: 'assistant', content: "I couldn't reach the server. Make sure the backend is running and try again." }])
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   function handleKeyDown(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
