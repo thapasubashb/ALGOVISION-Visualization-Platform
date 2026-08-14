@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import DSAPage from "./Pages/DSAPage";
 import AlgorithmPage from "./pages/AlgorithmPage";
 import ComingSoonPage from "./pages/ComingSoonPage";
+import ChatWidget from './components/ChatWidget'
+
 
 function App() {
   const location = useLocation();
@@ -55,6 +57,7 @@ function App() {
         />
       </Routes>
       {location.pathname === "/" && <Footer />}
+      <ChatWidget />
     </div>
   );
 }
