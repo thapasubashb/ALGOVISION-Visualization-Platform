@@ -1,9 +1,13 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import mongoose from 'mongoose'
 import Groq from 'groq-sdk'
+import authRoutes from './routes/auth.js'
+import progressRoutes from './routes/progress.js'
 
 dotenv.config()
+const DEFAULT_GROQ_MODEL = 'openai/gpt-oss-20b'
 
 const app = express()
 app.use(cors())
@@ -11,9 +15,16 @@ app.use(express.json())
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.error('MongoDB connection error:', err.message))
+
 app.get('/', (req, res) => {
   res.json({ status: 'AlgoVision backend is running' })
 })
+
+app.use('/api/auth', authRoutes)
+app.use('/api/progress', progressRoutes)
 
 app.post('/api/chat', async (req, res) => {
   try {
@@ -23,17 +34,18 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).json({ error: 'A message is required' })
     }
 
-    let systemPrompt = `You are a friendly, patient CS tutor built into a platform called AlgoVision, which visualizes algorithms step by step. Keep answers short — 2 to 4 sentences, beginner-friendly, encouraging. Avoid heavy jargon unless the user clearly wants depth.`
+    let systemPrompt = `You are a friendly, patient CS tutor built into AlgoVision, which visualizes algorithms step by step. Keep answers short — 2 to 4 sentences, beginner-friendly, encouraging.`
 
     if (context?.algorithmName) {
-      systemPrompt += ` The user is currently viewing a visualization of: ${context.algorithmName}.`
+      systemPrompt += ` The user is currently viewing: ${context.algorithmName}.`
     }
     if (context?.stepDescription) {
-      systemPrompt += ` The exact step on screen right now is: "${context.stepDescription}". Answer with this specific moment in mind when relevant.`
+      systemPrompt += ` Current step: "${context.stepDescription}".`
     }
+    const groqModel = process.env.GROQ_MODEL || DEFAULT_GROQ_MODEL
 
     const completion = await groq.chat.completions.create({
-      model: 'llama-3.1-8b-instant',
+      model: groqModel,
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: message },
@@ -41,12 +53,14 @@ app.post('/api/chat', async (req, res) => {
       max_tokens: 300,
     })
 
-    const reply = completion.choices[0]?.message?.content || "Sorry, I couldn't come up with an answer just now."
+    const reply = completion.choices[0]?.message?.content || "Sorry, I couldn't generate an answer."
     res.json({ reply })
-
   } catch (err) {
-    console.error('Chat endpoint error:', err.message)
-    res.status(500).json({ error: 'Something went wrong talking to the AI. Please try again.' })
+    console.error('Chat error details:', err)
+    res.status(502).json({
+      error: 'The AI provider rejected the request. Check your Groq API key and model access.',
+      details: err?.message || 'Unknown error',
+    })
   }
 })
 
