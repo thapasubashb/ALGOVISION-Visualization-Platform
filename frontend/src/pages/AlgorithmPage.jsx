@@ -12,6 +12,7 @@ import BSTVisualizer from '../components/visualizers/BSTVisualizer'
 import GraphVisualizer from '../components/visualizers/GraphVisualizer'
 import { useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { API_URL } from '../config'
 
 
 const visualizers = {

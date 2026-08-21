@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, X, Send, Sparkles, Bot } from 'lucide-react'
 import { algorithms } from '../data/algorithms'
+import { API_URL } from '../config'
 
 function TypingDots() {
   return (
@@ -69,7 +70,7 @@ function ChatWidget() {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/chat', {
+     const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
