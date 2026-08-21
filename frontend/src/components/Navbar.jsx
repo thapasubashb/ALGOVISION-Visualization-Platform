@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom'
 
+import AuthButton from './AuthButton'
+
+
+
 function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4">
@@ -22,7 +26,8 @@ function Navbar() {
         <div className="flex items-center gap-6 shrink-0">
           <Link to="/" className="hidden sm:inline text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors">Home</Link>
           <Link to="/about" className="hidden sm:inline text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors">About Us</Link>
-          
+            <AuthButton />
+
           {/* Fixed the missing opening tag <a right here */}
           <a
             href="https://github.com/thapasubashb/ALGOVISION-Visualization-Platform"

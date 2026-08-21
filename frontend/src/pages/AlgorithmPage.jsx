@@ -10,7 +10,8 @@ import LinkedListVisualizer from '../components/visualizers/LinkedListVisualizer
 import StackQueueVisualizer from '../components/visualizers/StackQueueVisualizer'
 import BSTVisualizer from '../components/visualizers/BSTVisualizer'
 import GraphVisualizer from '../components/visualizers/GraphVisualizer'
-
+import { useEffect } from 'react'
+import { useAuth } from '../context/AuthContext'
 
 
 const visualizers = {
@@ -32,6 +33,22 @@ const visualizers = {
 function AlgorithmPage() {
   const { algorithmId } = useParams()
   const Visualizer = visualizers[algorithmId]
+  const { token, isAuthenticated } = useAuth()
+
+  useEffect(() => {
+    if (!isAuthenticated || !algorithmId) return
+
+    fetch('http://localhost:5000/api/progress/visit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ algorithmId }),
+    }).catch(() => {
+      // progress tracking is a nice-to-have, shouldn't break the page if it fails
+    })
+  }, [algorithmId, isAuthenticated, token])
 
   return (
     <main className="max-w-5xl mx-auto px-6 pt-32 pb-10">
