@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import DSAPage from "./pages/DSAPage";
-import AlgorithmPage from "./Pages/AlgorithmPage";
+import AlgorithmPage from "./pages/AlgorithmPage";
 import ComingSoonPage from "./pages/ComingSoonPage";
 import ChatWidget from "./components/ChatWidget";
 import { AuthProvider } from "./context/AuthContext";
