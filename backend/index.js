@@ -5,6 +5,8 @@ import mongoose from 'mongoose'
 import Groq from 'groq-sdk'
 import authRoutes from './routes/auth.js'
 import progressRoutes from './routes/progress.js'
+import KnowledgeChunk from './models/KnowledgeChunk.js'
+import { embedText } from './utils/embeddings.js'
 
 dotenv.config()
 const DEFAULT_GROQ_MODEL = 'openai/gpt-oss-20b'
@@ -26,6 +28,43 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes)
 app.use('/api/progress', progressRoutes)
 
+// Looks up the most relevant chunks of real algorithm source code for a given
+// question. If anything goes wrong here, we return an empty string instead of
+// throwing — a broken retrieval step should never take down the whole chatbot.
+async function retrieveRelevantContext(message) {
+  try {
+    const queryEmbedding = await embedText(message)
+
+    const results = await KnowledgeChunk.aggregate([
+      {
+        $vectorSearch: {
+          index: 'vector_index',
+          path: 'embedding',
+          queryVector: queryEmbedding,
+          numCandidates: 20,
+          limit: 2,
+        },
+      },
+      {
+        $project: {
+          sourceFile: 1,
+          content: 1,
+          score: { $meta: 'vectorSearchScore' },
+        },
+      },
+    ])
+
+    if (!results.length) return ''
+
+    return results
+      .map((r) => `--- Source: ${r.sourceFile} ---\n${r.content}`)
+      .join('\n\n')
+  } catch (err) {
+    console.error('Retrieval error (continuing without extra context):', err.message)
+    return ''
+  }
+}
+
 app.post('/api/chat', async (req, res) => {
   try {
     const { message, context } = req.body
@@ -42,6 +81,12 @@ app.post('/api/chat', async (req, res) => {
     if (context?.stepDescription) {
       systemPrompt += ` Current step: "${context.stepDescription}".`
     }
+
+    const relevantContext = await retrieveRelevantContext(message)
+    if (relevantContext) {
+      systemPrompt += `\n\nHere is the real source code for the algorithm(s) most relevant to the user's question. Use it to answer accurately based on this exact implementation, not just general knowledge:\n\n${relevantContext}`
+    }
+
     const groqModel = process.env.GROQ_MODEL || DEFAULT_GROQ_MODEL
 
     const completion = await groq.chat.completions.create({
