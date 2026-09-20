@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import BubbleSortVisualizer from '../components/visualizers/BubbleSortVisualizer'
 import SelectionSortVisualizer from '../components/visualizers/SelectionSortVisualizer'
@@ -10,10 +11,8 @@ import LinkedListVisualizer from '../components/visualizers/LinkedListVisualizer
 import StackQueueVisualizer from '../components/visualizers/StackQueueVisualizer'
 import BSTVisualizer from '../components/visualizers/BSTVisualizer'
 import GraphVisualizer from '../components/visualizers/GraphVisualizer'
-import { useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { API_URL } from '../config'
-
 
 const visualizers = {
   'bubble-sort': BubbleSortVisualizer,
@@ -29,8 +28,6 @@ const visualizers = {
   'graph-traversal': GraphVisualizer,
 }
 
-
-
 function AlgorithmPage() {
   const { algorithmId } = useParams()
   const Visualizer = visualizers[algorithmId]
@@ -39,7 +36,7 @@ function AlgorithmPage() {
   useEffect(() => {
     if (!isAuthenticated || !algorithmId) return
 
-    fetch('http://localhost:5000/api/progress/visit', {
+    fetch(`${API_URL}/api/progress/visit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
