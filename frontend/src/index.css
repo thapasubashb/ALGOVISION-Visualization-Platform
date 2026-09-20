@@ -3,3 +3,32 @@
 html {
   scroll-behavior: smooth;
 }
+
+@keyframes av-glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.35); }
+  50% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
+}
+.av-glow {
+  animation: av-glow-pulse 1.6s ease-out infinite;
+}
+
+@keyframes av-glow-pulse-danger {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.35); }
+  50% { box-shadow: 0 0 0 8px rgba(225, 29, 72, 0); }
+}
+.av-glow-danger {
+  animation: av-glow-pulse-danger 1.6s ease-out infinite;
+}
+
+@keyframes av-glow-pulse-success {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.35); }
+  50% { box-shadow: 0 0 0 8px rgba(13, 148, 136, 0); }
+}
+.av-glow-success {
+  animation: av-glow-pulse-success 1.6s ease-out infinite;
+}
+
+.av-grid-bg {
+  background-image: radial-gradient(rgba(59, 130, 246, 0.16) 1px, transparent 1px);
+  background-size: 18px 18px;
+}

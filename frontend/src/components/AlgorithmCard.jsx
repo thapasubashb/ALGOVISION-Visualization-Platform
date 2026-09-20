@@ -5,6 +5,9 @@ const categoryStyles = {
   'Stack & Queue': { badge: 'bg-amber-50 text-amber-600', bar: 'bg-amber-400' },
   Trees: { badge: 'bg-pink-50 text-pink-600', bar: 'bg-pink-400' },
   Graphs: { badge: 'bg-indigo-50 text-indigo-600', bar: 'bg-indigo-400' },
+  DBMS: { badge: 'bg-cyan-50 text-cyan-700', bar: 'bg-cyan-400' },
+  Networking: { badge: 'bg-emerald-50 text-emerald-700', bar: 'bg-emerald-400' },
+  'Operating Systems': { badge: 'bg-orange-50 text-orange-700', bar: 'bg-orange-400' },
 }
 
 function AlgorithmCard({ name, category, description, difficulty, status }) {
