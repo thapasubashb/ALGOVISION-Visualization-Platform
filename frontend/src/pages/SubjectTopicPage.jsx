@@ -1,4 +1,7 @@
+import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
+import { API_URL } from '../config'
 
 /**
  * Shared detail route for DBMS / CN / OS topics — mirrors AlgorithmPage's
@@ -8,6 +11,22 @@ function SubjectTopicPage({ topics, visualizers, basePath, backLabel }) {
   const { topicId } = useParams()
   const topic = topics.find((t) => t.id === topicId)
   const Visualizer = visualizers[topicId]
+  const { token, isAuthenticated } = useAuth()
+
+  useEffect(() => {
+    if (!isAuthenticated || !topicId) return
+
+    fetch(`${API_URL}/api/progress/visit`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ algorithmId: topicId }),
+    }).catch(() => {
+      // progress tracking is a nice-to-have, shouldn't break the page if it fails
+    })
+  }, [topicId, isAuthenticated, token])
 
   return (
     <main className="max-w-5xl mx-auto px-6 pt-32 pb-10">
