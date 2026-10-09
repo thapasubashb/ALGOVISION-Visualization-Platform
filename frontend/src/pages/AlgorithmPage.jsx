@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import BubbleSortVisualizer from '../components/visualizers/BubbleSortVisualizer'
 import SelectionSortVisualizer from '../components/visualizers/SelectionSortVisualizer'
@@ -11,8 +10,10 @@ import LinkedListVisualizer from '../components/visualizers/LinkedListVisualizer
 import StackQueueVisualizer from '../components/visualizers/StackQueueVisualizer'
 import BSTVisualizer from '../components/visualizers/BSTVisualizer'
 import GraphVisualizer from '../components/visualizers/GraphVisualizer'
+import { useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { API_URL } from '../config'
+
 
 const visualizers = {
   'bubble-sort': BubbleSortVisualizer,
@@ -28,6 +29,8 @@ const visualizers = {
   'graph-traversal': GraphVisualizer,
 }
 
+
+
 function AlgorithmPage() {
   const { algorithmId } = useParams()
   const Visualizer = visualizers[algorithmId]
@@ -36,7 +39,7 @@ function AlgorithmPage() {
   useEffect(() => {
     if (!isAuthenticated || !algorithmId) return
 
-    fetch(`${API_URL}/api/progress/visit`, {
+    fetch('http://localhost:5000/api/progress/visit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -49,15 +52,17 @@ function AlgorithmPage() {
   }, [algorithmId, isAuthenticated, token])
 
   return (
-    <main className="max-w-5xl mx-auto px-6 pt-32 pb-10">
-      <Link to="/dsa" className="text-sm text-blue-600 hover:underline">
-        ← Back to all algorithms
-      </Link>
+    <main className="min-h-screen bg-white dark:bg-slate-950 transition-colors">
+      <div className="max-w-5xl mx-auto px-6 pt-32 pb-10">
+        <Link to="/dsa" className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+          ← Back to all algorithms
+        </Link>
 
-      <div className="mt-4">
-        {Visualizer ? <Visualizer /> : (
-          <p className="text-slate-500 mt-8">This visualizer isn't built yet — coming soon.</p>
-        )}
+        <div className="mt-4">
+          {Visualizer ? <Visualizer /> : (
+            <p className="text-slate-500 dark:text-slate-400 mt-8">This visualizer isn't built yet — coming soon.</p>
+          )}
+        </div>
       </div>
     </main>
   )

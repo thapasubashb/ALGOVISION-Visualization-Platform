@@ -87,7 +87,7 @@ function App() {
 
   return (
     <AuthProvider>
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-50 dark:bg-transparent transition-colors">
         <Navbar />
         <Routes>
           <Route path="/dsa" element={<DSAPage />} />

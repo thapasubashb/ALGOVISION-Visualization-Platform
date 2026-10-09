@@ -1,39 +1,41 @@
 import { Link } from 'react-router-dom'
 
 import AuthButton from './AuthButton'
+import ThemeToggle from './ThemeToggle'
 
 
 
 function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4">
-      <div className="max-w-6xl mx-auto flex items-center justify-between gap-6 bg-white/20 backdrop-blur-xl border border-white/40 shadow-lg shadow-sky-200/40 rounded-full px-6 py-3">
+      <div className="max-w-6xl mx-auto flex items-center justify-between gap-6 bg-white/20 dark:bg-slate-900/70 backdrop-blur-xl border border-white/40 dark:border-slate-700/50 shadow-lg shadow-sky-200/40 dark:shadow-black/50 rounded-full px-6 py-3">
         <Link
           to="/"
-          className="text-2xl font-extrabold tracking-tight bg-linear-to-r from-blue-600 to-sky-400 bg-clip-text text-transparent shrink-0"
+          className="text-2xl font-extrabold tracking-tight bg-linear-to-r from-blue-600 to-sky-400 dark:from-blue-400 dark:to-sky-300 bg-clip-text text-transparent shrink-0"
           style={{ fontFamily: "'Sora', sans-serif" }}
         >
           AlgoVision
         </Link>
 
         <div className="hidden sm:flex items-center gap-8">
-          <Link to="/dsa" className="text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors">DSA</Link>
-          <Link to="/os" className="text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors">OS</Link>
-          <Link to="/cn" className="text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors">CN</Link>
-          <Link to="/dbms" className="text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors">DBMS</Link>
+          <Link to="/dsa" className="text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">DSA</Link>
+          <Link to="/os" className="text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">OS</Link>
+          <Link to="/cn" className="text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">CN</Link>
+          <Link to="/dbms" className="text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">DBMS</Link>
         </div>
 
-        <div className="flex items-center gap-6 shrink-0">
-          <Link to="/" className="hidden sm:inline text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors">Home</Link>
-          <Link to="/about" className="hidden sm:inline text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors">About Us</Link>
-            <AuthButton />
+        <div className="flex items-center gap-4 shrink-0">
+          <Link to="/" className="hidden sm:inline text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</Link>
+          <Link to="/about" className="hidden sm:inline text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Us</Link>
+          <AuthButton />
+          <ThemeToggle />
 
           {/* Fixed the missing opening tag <a right here */}
           <a
             href="https://github.com/thapasubashb/ALGOVISION-Visualization-Platform"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-700 hover:text-blue-600 transition-colors"
+            className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             aria-label="View source on GitHub"
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">

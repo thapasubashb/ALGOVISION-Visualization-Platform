@@ -14,22 +14,22 @@ function AlgorithmCard({ name, category, description, difficulty, status }) {
   const style = categoryStyles[category] || { badge: 'bg-slate-100 text-slate-600', bar: 'bg-slate-300' }
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer h-full">
+    <div className="bg-white dark:bg-slate-900 rounded-xl shadow-md dark:shadow-black/30 overflow-hidden border border-slate-100 dark:border-slate-800 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer h-full">
       <div className={`h-1.5 ${style.bar}`} />
       <div className="p-5">
         <div className="flex items-center justify-between mb-2">
-          <span className={`text-xs font-semibold px-2 py-1 rounded-full ${style.badge}`}>
+          <span className={`text-xs font-semibold px-2 py-1 rounded-full ${style.badge} dark:brightness-125 dark:bg-opacity-20`}>
             {category}
           </span>
           <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-            status === "Built" ? "bg-teal-50 text-teal-700" : "bg-slate-100 text-slate-500"
+            status === "Built" ? "bg-teal-50 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
           }`}>
             {status}
           </span>
         </div>
-        <h3 className="text-lg font-bold text-slate-800 mb-1">{name}</h3>
-        <p className="text-xs text-slate-400 mb-2">{difficulty}</p>
-        <p className="text-sm text-slate-500">{description}</p>
+        <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1">{name}</h3>
+        <p className="text-xs text-slate-400 dark:text-slate-500 mb-2">{difficulty}</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">{description}</p>
       </div>
     </div>
   )

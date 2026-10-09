@@ -1,60 +1,42 @@
-import { motion } from 'framer-motion'
-import SearchVisualizer from '../SearchVisualizer'
-import { linearSearchTrace } from '../../algorithms/linearSearch'
-
-function renderVisual(step) {
-  const pointerIndex = step.found !== null ? step.found : (step.comparing[0] ?? null)
-  const count = step.array.length
-
-  return (
-    <div className="flex justify-center overflow-x-auto py-2">
-      <div
-        className="inline-grid gap-2 max-w-full"
-        style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 56px))` }}
-      >
-        {pointerIndex !== null && (
-          <motion.div
-            layout
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            style={{ gridColumn: pointerIndex + 1, gridRow: 1 }}
-            className="flex flex-col items-center mb-3"
-          >
-            <div className="w-full aspect-square max-w-14 rounded-lg border-2 border-dashed border-pink-400 bg-pink-50 flex items-center justify-center font-bold text-lg text-pink-600">
-              {step.target}
-            </div>
-            <span className="text-xs text-pink-500 mt-1 whitespace-nowrap">↓ target</span>
-          </motion.div>
-        )}
-
-        {step.array.map((value, index) => {
-          let boxStyle = 'bg-white border-slate-300 text-slate-700'
-          if (index === step.found) boxStyle = 'bg-green-100 border-green-400 text-green-700'
-          else if (step.comparing.includes(index)) boxStyle = 'bg-amber-100 border-amber-400 text-amber-700'
-          else if (step.checked.includes(index)) boxStyle = 'bg-slate-100 border-slate-200 text-slate-400'
-
-          return (
-            <div key={index} style={{ gridColumn: index + 1, gridRow: 2 }} className="flex flex-col items-center">
-              <div className={`w-full aspect-square max-w-14 rounded-lg border-2 flex items-center justify-center font-bold text-lg transition-colors duration-300 ${boxStyle}`}>
-                {value}
-              </div>
-              <span className="text-xs text-slate-400 mt-1">{index}</span>
-            </div>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
+import { useMemo, useState } from 'react'
+import { VisualizationShell, TopicNotes, BarArray3D, ArrayInput, useSimulationEngine } from '../../simulation'
+import { buildLinearSearchSteps, LINEAR_SEARCH_ARRAY, LINEAR_SEARCH_TARGET, linearSearchNotes } from '../../simulation-data/linearSearch'
 
 function LinearSearchVisualizer() {
+  const [customArray, setCustomArray] = useState(null)
+  const [target, setTarget] = useState(LINEAR_SEARCH_TARGET)
+  const array = customArray || LINEAR_SEARCH_ARRAY
+  const steps = useMemo(() => buildLinearSearchSteps(customArray, target), [customArray, target])
+  const engine = useSimulationEngine(steps)
+  const { state } = engine.currentStep
+
+  const states = array.map((_, i) => {
+    if (i === state.found) return 'sorted'
+    if (i === state.current) return 'compare'
+    return 'default'
+  })
+
+  const handleApply = (values) => {
+    setCustomArray(values)
+    setTarget(values[Math.floor(values.length / 2)])
+  }
+
   return (
-    <SearchVisualizer
-      title="Linear Search"
-      initialArray={[8, 3, 6, 1, 9, 4]}
-      initialTarget={9}
-      traceFn={linearSearchTrace}
-      renderVisual={renderVisual}
-    />
+    <>
+      <VisualizationShell
+        title="Linear Search"
+        subtitle={`Searching for ${target} by checking every element in order`}
+        engine={engine}
+        legend={[
+          { label: 'Checking now', color: 'bg-amber-400' },
+          { label: 'Found', color: 'bg-teal-400' },
+        ]}
+        metrics={[{ label: 'Comparisons', value: state.comparisons }, { label: 'Target', value: target }]}
+        canvas={<BarArray3D values={array} states={states} />}
+        customInput={<ArrayInput defaultValues={LINEAR_SEARCH_ARRAY} onApply={handleApply} />}
+      />
+      <TopicNotes notes={linearSearchNotes} />
+    </>
   )
 }
 

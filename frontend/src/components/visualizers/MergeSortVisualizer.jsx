@@ -1,22 +1,40 @@
-import SortingVisualizer from '../SortingVisualizer'
-import { mergeSortTrace } from '../../algorithms/mergeSort'
-
-function getBarColor(step, index) {
-  if (step.sortedIndices.includes(index)) return 'bg-green-400'
-  if (index === step.placed) return 'bg-teal-400'
-  if (step.comparing.includes(index)) return 'bg-amber-400'
-  if (step.range && index >= step.range[0] && index <= step.range[1]) return 'bg-sky-200'
-  return 'bg-slate-300'
-}
+import { useMemo, useState } from 'react'
+import { VisualizationShell, TopicNotes, BarArray3D, ArrayInput, useSimulationEngine } from '../../simulation'
+import { buildMergeSortSteps, mergeSortNotes, MERGE_SORT_ARRAY } from '../../simulation-data/mergeSort'
 
 function MergeSortVisualizer() {
+  const [customArray, setCustomArray] = useState(null)
+  const steps = useMemo(() => buildMergeSortSteps(customArray), [customArray])
+  const engine = useSimulationEngine(steps)
+  const { state } = engine.currentStep
+
+  const states = state.array.map((_, i) => {
+    if (state.done) return 'sorted'
+    if (state.compareIndices?.includes(i)) return 'compare'
+    if (state.activeRange && i >= state.activeRange[0] && i < state.activeRange[1]) return 'active'
+    return 'default'
+  })
+
   return (
-    <SortingVisualizer
-      title="Merge Sort"
-      initialArray={[8, 3, 6, 1, 9, 4, 2]}
-      traceFn={mergeSortTrace}
-      getBarColor={getBarColor}
-    />
+    <>
+      <VisualizationShell
+        title="Merge Sort"
+        subtitle="Recursively split in half, then merge sorted halves back together"
+        engine={engine}
+        legend={[
+          { label: 'Active range', color: 'bg-indigo-400' },
+          { label: 'Comparing', color: 'bg-amber-400' },
+          { label: 'Sorted', color: 'bg-teal-400' },
+        ]}
+        metrics={[
+          { label: 'Comparisons', value: state.comparisons },
+          { label: 'Active range', value: state.activeRange ? `[${state.activeRange[0]}, ${state.activeRange[1] - 1}]` : '—' },
+        ]}
+        canvas={<BarArray3D values={state.array} states={states} />}
+        customInput={<ArrayInput defaultValues={MERGE_SORT_ARRAY} onApply={setCustomArray} />}
+      />
+      <TopicNotes notes={mergeSortNotes} />
+    </>
   )
 }
 

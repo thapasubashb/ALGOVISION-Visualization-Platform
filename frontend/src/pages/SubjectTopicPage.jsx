@@ -1,7 +1,4 @@
-import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import { API_URL } from '../config'
 
 /**
  * Shared detail route for DBMS / CN / OS topics — mirrors AlgorithmPage's
@@ -11,41 +8,27 @@ function SubjectTopicPage({ topics, visualizers, basePath, backLabel }) {
   const { topicId } = useParams()
   const topic = topics.find((t) => t.id === topicId)
   const Visualizer = visualizers[topicId]
-  const { token, isAuthenticated } = useAuth()
-
-  useEffect(() => {
-    if (!isAuthenticated || !topicId) return
-
-    fetch(`${API_URL}/api/progress/visit`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ algorithmId: topicId }),
-    }).catch(() => {
-      // progress tracking is a nice-to-have, shouldn't break the page if it fails
-    })
-  }, [topicId, isAuthenticated, token])
 
   return (
-    <main className="max-w-5xl mx-auto px-6 pt-32 pb-10">
-      <Link to={basePath} className="text-sm text-blue-600 hover:underline">
-        ← {backLabel}
-      </Link>
+    <main className="min-h-screen bg-white dark:bg-slate-950 transition-colors">
+      <div className="max-w-5xl mx-auto px-6 pt-32 pb-10">
+        <Link to={basePath} className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+          ← {backLabel}
+        </Link>
 
-      <div className="mt-4">
-        {topic && <h1 className="text-2xl font-bold text-slate-800">{topic.name}</h1>}
+        <div className="mt-4">
+          {topic && <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">{topic.name}</h1>}
 
-        {Visualizer ? (
-          <Visualizer />
-        ) : (
-          <div className="bg-white rounded-xl shadow-md p-8 mt-6 text-center">
-            <p className="text-slate-500">
-              {topic ? `${topic.name} isn't built yet — coming soon.` : "This topic isn't built yet — coming soon."}
-            </p>
-          </div>
-        )}
+          {Visualizer ? (
+            <Visualizer />
+          ) : (
+            <div className="bg-white dark:bg-slate-900 rounded-xl shadow-md p-8 mt-6 text-center">
+              <p className="text-slate-500 dark:text-slate-400">
+                {topic ? `${topic.name} isn't built yet — coming soon.` : "This topic isn't built yet — coming soon."}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </main>
   )

@@ -1,23 +1,41 @@
-import SortingVisualizer from '../SortingVisualizer'
-import { quickSortTrace } from '../../algorithms/quickSort'
-
-function getBarColor(step, index) {
-  if (step.sortedIndices.includes(index)) return 'bg-green-400'
-  if (index === step.pivotIndex) return 'bg-pink-400'
-  if (step.swapped.includes(index)) return 'bg-red-400'
-  if (step.comparing.includes(index)) return 'bg-amber-400'
-  if (step.range && index >= step.range[0] && index <= step.range[1]) return 'bg-sky-200'
-  return 'bg-slate-300'
-}
+import { useMemo, useState } from 'react'
+import { VisualizationShell, TopicNotes, BarArray3D, ArrayInput, useSimulationEngine } from '../../simulation'
+import { buildQuickSortSteps, quickSortNotes, QUICK_SORT_ARRAY } from '../../simulation-data/quickSort'
 
 function QuickSortVisualizer() {
+  const [customArray, setCustomArray] = useState(null)
+  const steps = useMemo(() => buildQuickSortSteps(customArray), [customArray])
+  const engine = useSimulationEngine(steps)
+  const { state } = engine.currentStep
+
+  const states = state.array.map((_, i) => {
+    if (state.sorted?.includes(i)) return 'sorted'
+    if (i === state.pivotIndex) return 'pivot'
+    if (i === state.compareIndex) return 'compare'
+    if (state.range && (i < state.range[0] || i > state.range[1])) return 'default'
+    return 'default'
+  })
+
   return (
-    <SortingVisualizer
-      title="Quick Sort"
-      initialArray={[8, 3, 6, 1, 9, 4, 2]}
-      traceFn={quickSortTrace}
-      getBarColor={getBarColor}
-    />
+    <>
+      <VisualizationShell
+        title="Quick Sort"
+        subtitle="Partition around a pivot, then recursively sort each side"
+        engine={engine}
+        legend={[
+          { label: 'Pivot', color: 'bg-purple-500' },
+          { label: 'Comparing', color: 'bg-amber-400' },
+          { label: 'Sorted (final position)', color: 'bg-teal-400' },
+        ]}
+        metrics={[
+          { label: 'Comparisons', value: state.comparisons },
+          { label: 'Swaps', value: state.swaps },
+        ]}
+        canvas={<BarArray3D values={state.array} states={states} />}
+        customInput={<ArrayInput defaultValues={QUICK_SORT_ARRAY} onApply={setCustomArray} />}
+      />
+      <TopicNotes notes={quickSortNotes} />
+    </>
   )
 }
 

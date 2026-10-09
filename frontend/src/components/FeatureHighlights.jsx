@@ -3,23 +3,97 @@ import Scene3DBackground from './Scene3DBackground'
 import { buildFeatureScene } from '../three/featureScene'
 
 const features = [
-  { number: '01', title: 'Step through it, your way', description: 'Play, pause, step forward or back, and control speed from 0.5x to 2x.' },
-  { number: '02', title: 'Use your own data', description: 'Type your own numbers and watch the same algorithm run on them, not a fixed demo.' },
-  { number: '03', title: "Ask, right when you're confused", description: 'An AI tutor sits alongside every visualizer, aware of exactly what step you\'re on.' },
-  { number: '04', title: 'One visual language, everywhere', description: 'The same color coding for compare, swap, and sorted — across every single algorithm.' },
-  { number: '05', title: 'Beyond just DSA', description: 'Operating Systems, Computer Networks, and DBMS modules are on the way, same engine.' },
-  { number: '06', title: 'Free, always', description: 'No paywalls, no signup walls — built for learning, not for locking content behind a login.' },
+  {
+    number: '01',
+    title: 'Step through it, your way',
+    description:
+      'Play, pause, step forward or back, and control speed from 0.5x to 2x.',
+  },
+  {
+    number: '02',
+    title: 'Use your own data',
+    description:
+      'Type your own numbers and watch the same algorithm run on them, not a fixed demo.',
+  },
+  {
+    number: '03',
+    title: "Ask, right when you're confused",
+    description:
+      "An AI tutor sits alongside every visualizer, aware of exactly what step you're on.",
+  },
+  {
+    number: '04',
+    title: 'One visual language, everywhere',
+    description:
+      'The same color coding for compare, swap, and sorted — across every single algorithm.',
+  },
+  {
+    number: '05',
+    title: 'Beyond just DSA',
+    description:
+      'Operating Systems, Computer Networks, and DBMS modules are on the way, same engine.',
+  },
+  {
+    number: '06',
+    title: 'Free, always',
+    description:
+      'No paywalls, no signup walls — built for learning, not for locking content behind a login.',
+  },
 ]
 
 const variants = [
-  { card: 'bg-sky-50/50 border-sky-200/70', badge: 'bg-sky-500/15 text-sky-700 border-sky-300/50', title: 'from-sky-600 to-cyan-500', text: 'text-sky-900/70' },
-  { card: 'bg-blue-50/50 border-blue-200/70', badge: 'bg-blue-500/15 text-blue-700 border-blue-300/50', title: 'from-blue-600 to-indigo-500', text: 'text-blue-900/70' },
-  { card: 'bg-cyan-50/50 border-cyan-200/70', badge: 'bg-cyan-500/15 text-cyan-700 border-cyan-300/50', title: 'from-cyan-600 to-sky-500', text: 'text-cyan-900/70' },
+  {
+    card: `
+      bg-sky-50/50 dark:bg-sky-950/40
+      border-sky-200/70 dark:border-sky-800/60
+    `,
+    badge: `
+      bg-sky-500/15 dark:bg-sky-400/15
+      text-sky-700 dark:text-sky-300
+      border-sky-300/50 dark:border-sky-700/50
+    `,
+    title: 'from-sky-600 to-cyan-500 dark:from-sky-400 dark:to-cyan-300',
+    text: 'text-sky-900/70 dark:text-sky-200/80',
+  },
+  {
+    card: `
+      bg-blue-50/50 dark:bg-blue-950/40
+      border-blue-200/70 dark:border-blue-800/60
+    `,
+    badge: `
+      bg-blue-500/15 dark:bg-blue-400/15
+      text-blue-700 dark:text-blue-300
+      border-blue-300/50 dark:border-blue-700/50
+    `,
+    title: 'from-blue-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-300',
+    text: 'text-blue-900/70 dark:text-blue-200/80',
+  },
+  {
+    card: `
+      bg-cyan-50/50 dark:bg-cyan-950/40
+      border-cyan-200/70 dark:border-cyan-800/60
+    `,
+    badge: `
+      bg-cyan-500/15 dark:bg-cyan-400/15
+      text-cyan-700 dark:text-cyan-300
+      border-cyan-300/50 dark:border-cyan-700/50
+    `,
+    title: 'from-cyan-600 to-sky-500 dark:from-cyan-400 dark:to-sky-300',
+    text: 'text-cyan-900/70 dark:text-cyan-200/80',
+  },
 ]
 
 function FeatureHighlights() {
   return (
-    <section className="min-h-screen bg-sky-100 flex flex-col justify-center py-24 px-6 relative overflow-hidden">
+    <section
+      className="
+        min-h-screen
+        bg-sky-100 dark:bg-slate-950
+        flex flex-col justify-center
+        py-24 px-6 relative overflow-hidden
+        transition-colors duration-500
+      "
+    >
       <Scene3DBackground buildScene={buildFeatureScene} cameraZ={12} />
 
       <div className="max-w-5xl mx-auto relative z-10">
@@ -28,7 +102,12 @@ function FeatureHighlights() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.6 }}
-          className="text-3xl sm:text-4xl font-bold text-slate-900 text-center mb-16"
+          className="
+            text-3xl sm:text-4xl font-bold
+            text-slate-900 dark:text-white
+            text-center mb-16
+            transition-colors duration-500
+          "
           style={{ fontFamily: "'Sora', sans-serif" }}
         >
           Built to actually make it click
@@ -37,6 +116,7 @@ function FeatureHighlights() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {features.map((f, i) => {
             const v = variants[i % variants.length]
+
             return (
               <motion.div
                 key={f.number}
@@ -45,18 +125,42 @@ function FeatureHighlights() {
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ y: -6 }}
-                className={`backdrop-blur-md border rounded-xl p-6 shadow-md shadow-blue-100/60 hover:shadow-lg transition-shadow ${v.card}`}
+                className={`
+                  backdrop-blur-md
+                  border rounded-xl p-6
+                  shadow-md
+                  shadow-blue-100/60 dark:shadow-black/30
+                  hover:shadow-lg
+                  transition-all duration-300
+                  ${v.card}
+                `}
               >
-                <div className={`w-9 h-9 rounded-full border flex items-center justify-center font-bold text-xs mb-4 ${v.badge}`}>
+                <div
+                  className={`
+                    w-9 h-9 rounded-full border
+                    flex items-center justify-center
+                    font-bold text-xs mb-4
+                    ${v.badge}
+                  `}
+                >
                   {f.number}
                 </div>
+
                 <h3
-                  className={`text-lg font-bold mb-2 bg-linear-to-r ${v.title} bg-clip-text text-transparent`}
+                  className={`
+                    text-lg font-bold mb-2
+                    bg-linear-to-r
+                    ${v.title}
+                    bg-clip-text text-transparent
+                  `}
                   style={{ fontFamily: "'Sora', sans-serif" }}
                 >
                   {f.title}
                 </h3>
-                <p className={`text-sm leading-relaxed ${v.text}`}>{f.description}</p>
+
+                <p className={`text-sm leading-relaxed ${v.text}`}>
+                  {f.description}
+                </p>
               </motion.div>
             )
           })}

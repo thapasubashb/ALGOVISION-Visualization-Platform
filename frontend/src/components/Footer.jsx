@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 function Footer() {
   return (
-    <footer className="bg-sky-200 text-slate-800 px-6 py-14">
+    <footer className="bg-sky-200 dark:bg-slate-900 text-slate-800 dark:text-slate-200 px-6 py-14 transition-colors">
       <div className="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between gap-10">
         <div className="max-w-xs">
           <p className="text-slate-900 text-lg font-bold mb-2" style={{ fontFamily: "'Sora', sans-serif" }}>
