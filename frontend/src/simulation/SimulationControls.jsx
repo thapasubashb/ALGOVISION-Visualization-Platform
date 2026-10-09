@@ -3,7 +3,7 @@ import { Play, Pause, SkipBack, SkipForward, RotateCcw } from 'lucide-react'
 function IconButton({ onClick, disabled, label, children, variant = 'ghost' }) {
   const base = 'flex items-center justify-center rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed'
   const variants = {
-    ghost: 'w-10 h-10 bg-slate-100 text-slate-600 hover:bg-slate-200',
+    ghost: 'w-10 h-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700',
     primary: 'w-12 h-12 bg-blue-600 text-white hover:bg-blue-700 shadow-md shadow-blue-300/40',
   }
   return (
@@ -24,7 +24,7 @@ function Timeline({ engine }) {
           onClick={() => goToStep(i)}
           aria-label={`Go to step ${i + 1}`}
           className={`h-1.5 flex-1 rounded-full transition-colors cursor-pointer ${
-            i <= currentIndex ? 'bg-blue-500' : 'bg-slate-200 hover:bg-slate-300'
+            i <= currentIndex ? 'bg-blue-500' : 'bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600'
           }`}
         />
       ))}
@@ -60,14 +60,14 @@ function SimulationControls({ engine }) {
         </IconButton>
 
         <div className="flex items-center gap-1 ml-1">
-          <span className="text-xs text-slate-400 mr-1">Speed</span>
+          <span className="text-xs text-slate-400 dark:text-slate-500 mr-1">Speed</span>
           {speedOptions.map((option) => (
             <button
               key={option}
               type="button"
               onClick={() => setSpeed(option)}
               className={`px-2 py-1 text-xs font-semibold rounded-md transition-colors ${
-                speed === option ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                speed === option ? 'bg-blue-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
               }`}
             >
               {option}x
@@ -75,7 +75,7 @@ function SimulationControls({ engine }) {
           ))}
         </div>
 
-        <span className="text-xs font-semibold text-slate-400 ml-auto whitespace-nowrap">
+        <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 ml-auto whitespace-nowrap">
           Step {currentIndex + 1} / {totalSteps}
         </span>
       </div>

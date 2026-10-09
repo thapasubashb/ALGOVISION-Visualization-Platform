@@ -9,7 +9,7 @@ function StepExplanation({ step, stepIndex }) {
   if (!step) return null
 
   return (
-    <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 min-h-[92px]">
+    <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700 rounded-xl p-4 min-h-[92px] transition-colors">
       <AnimatePresence mode="wait">
         <motion.div
           key={stepIndex}
@@ -18,8 +18,8 @@ function StepExplanation({ step, stepIndex }) {
           exit={{ opacity: 0, y: -6 }}
           transition={{ duration: 0.25, ease: 'easeOut' }}
         >
-          <h4 className="text-sm font-bold text-slate-800 mb-1">{step.title}</h4>
-          <p className="text-sm text-slate-600 leading-relaxed">{step.explanation}</p>
+          <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 mb-1">{step.title}</h4>
+          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{step.explanation}</p>
         </motion.div>
       </AnimatePresence>
     </div>
